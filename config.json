@@ -1,5 +1,5 @@
 {
   "supabaseUrl": "https://jgkintpjsquktukjcvef.supabase.co",
-  "supabasePublishableKey": "sb_publishable_CI9GpZs2FKlBPJTFesKRRw_jR8OAbzb",
+  "supabasePublishableKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impna2ludHBqc3F1a3R1a2pjdmVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjQ4MzMsImV4cCI6MjA4ODY0MDgzM30.yU7ekqUHMxG1OhHXqH3BA_K5MOq4poWw6eTm7DXmlSQ",
   "createPaymentUrl": "https://jgkintpjsquktukjcvef.supabase.co/functions/v1/create-payment"
 }
