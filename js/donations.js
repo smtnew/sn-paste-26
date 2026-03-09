@@ -43,9 +43,15 @@
       body.campaign_id = window.__campaignId;
     }
 
+    var anonKey = (window.__cfg && window.__cfg.supabasePublishableKey) || '';
+
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + anonKey,
+        'apikey': anonKey,
+      },
       body: JSON.stringify(body),
     })
       .then(function (res) { return res.json(); })
