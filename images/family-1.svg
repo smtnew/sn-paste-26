@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#FDF3D6"/>
+  <circle cx="200" cy="110" r="45" fill="#D4A017" opacity="0.3"/>
+  <circle cx="200" cy="100" r="22" fill="#D4A017" opacity="0.5"/>
+  <path d="M160 155 Q200 130 240 155 Q245 180 240 200 L160 200 Q155 180 160 155Z" fill="#D4A017" opacity="0.3"/>
+  <circle cx="155" cy="120" r="18" fill="#B8860B" opacity="0.3"/>
+  <circle cx="155" cy="112" r="10" fill="#B8860B" opacity="0.4"/>
+  <circle cx="245" cy="120" r="18" fill="#B8860B" opacity="0.3"/>
+  <circle cx="245" cy="112" r="10" fill="#B8860B" opacity="0.4"/>
+  <text x="200" y="250" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#B8860B" opacity="0.7">Maria, Cluj</text>
+</svg>

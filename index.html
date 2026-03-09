@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fii o Lumină de Paște | Asociația Something New</title>
+    <meta
+      name="description"
+      content="Adu lumină concretă în viața unei familii din Cluj și Sălaj. Donează pentru masa de Paște a unei familii nevoiașe."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- ========== HERO ========== -->
+    <header class="hero" id="hero">
+      <div class="container">
+        <h1 class="hero__title">Fii o <em>Lumină</em> de Paște</h1>
+        <p class="hero__subtitle">
+          Adu lumină concretă în viața unei
+          <strong>familii din Cluj și Sălaj.</strong>
+        </p>
+        <div class="hero__actions">
+          <a href="#familii" class="btn btn--primary">Susține o familie</a>
+          <a href="#implica" class="btn btn--outline"
+            >Vezi cum te poți implica &rsaquo;</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== CE INSEAMNA ========== -->
+    <section class="section meaning" id="meaning">
+      <div class="container">
+        <h2 class="section__title">Ce înseamnă <em>Fii o Lumină?</em></h2>
+        <div class="meaning__text">
+          <p>
+            Lumina nu face zgomot.<br />Nu cere atenție.<br />Dar schimbă totul
+            acolo unde ajunge.
+          </p>
+        </div>
+        <ul class="meaning__list">
+          <li>
+            <span class="check-icon">&#10003;</span>
+            100 de plase cu alimente
+          </li>
+          <li>
+            <span class="check-icon">&#10003;</span>
+            Masă festivă pentru 80 de persoane
+          </li>
+          <li>
+            <span class="check-icon">&#10003;</span>
+            Bucurie și demnitate de Paște
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== FAMILII NEVOIASE ========== -->
+    <section class="section families" id="familii">
+      <div class="container">
+        <h2 class="section__title section__title--decorated">
+          Familii Nevoioase
+        </h2>
+
+        <div class="carousel">
+          <button
+            class="carousel__btn carousel__btn--prev"
+            aria-label="Familia anterioară"
+          >
+            &lsaquo;
+          </button>
+          <div class="carousel__track">
+            <div class="carousel__slide">
+              <div class="family-card">
+                <div class="family-card__img">
+                  <img
+                    src="images/i.jpg"
+                    alt="Familia Maria din Cluj"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="family-card__name">Maria, Cluj</p>
+              </div>
+            </div>
+            <div class="carousel__slide">
+              <div class="family-card">
+                <div class="family-card__img">
+                  <img
+                    src="images/ii.jpg"
+                    alt="Familie din Sălaj"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="family-card__name">Sălaj, Sălaj</p>
+              </div>
+            </div>
+            <div class="carousel__slide">
+              <div class="family-card">
+                <div class="family-card__img">
+                  <img
+                    src="images/iii.jpg"
+                    alt="Familie din Sălaj"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="family-card__name">Sălaj, Sălaj</p>
+              </div>
+            </div>
+            <div class="carousel__slide">
+              <div class="family-card">
+                <div class="family-card__img">
+                  <img
+                    src="images/family-2.svg"
+                    alt="Familie din Cluj"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="family-card__name">Ana, Cluj</p>
+              </div>
+            </div>
+            <div class="carousel__slide">
+              <div class="family-card">
+                <div class="family-card__img">
+                  <img
+                    src="images/family-1.svg"
+                    alt="Familie din Sălaj"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="family-card__name">Elena, Sălaj</p>
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel__btn carousel__btn--next"
+            aria-label="Familia următoare"
+          >
+            &rsaquo;
+          </button>
+        </div>
+
+        <div class="families__cta">
+          <a href="#" class="btn btn--primary" data-open-modal="family"
+            >Susține o familie &rsaquo;</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CUM POTI FI LUMINA ========== -->
+    <section class="section donate" id="implica">
+      <div class="container">
+        <h2 class="section__title">Cum poți fi Lumină?</h2>
+
+        <div class="donate__grid">
+          <!-- Card Masa Festiva -->
+          <div class="donate-card donate-card--festive">
+            <h3 class="donate-card__title">Susține<br />Masa Festivă</h3>
+            <div class="donate-card__img">
+              <img
+                src="images/masa-festiva.svg"
+                alt="Masa festivă de Paște"
+                loading="lazy"
+              />
+            </div>
+            <div class="donate-card__progress">
+              <p class="progress__label">
+                Sumă strânsă până acum: <strong id="amountRaised">0</strong> lei
+              </p>
+              <p class="progress__target">
+                <span id="targetAmount">10.000</span> lei sau 100 persoane
+              </p>
+              <div class="progress-bar">
+                <div
+                  class="progress-bar__fill"
+                  id="progressFill"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <div class="progress-bar__numbers">
+                <span>0</span>
+                <span id="targetLabel">10,000.00</span>
+              </div>
+            </div>
+            <a href="#" class="btn btn--primary" data-open-modal="festive"
+              >Susține masa &rsaquo;</a
+            >
+          </div>
+
+          <!-- Tier 150 -->
+          <div class="donate-card donate-card--tier">
+            <div class="donate-card__price">150 lei</div>
+            <h3 class="donate-card__tier-name">Lumină<br />pentru început</h3>
+            <div class="donate-card__img donate-card__img--small">
+              <img
+                src="images/tier-150.svg"
+                alt="Pachet 150 lei"
+                loading="lazy"
+              />
+            </div>
+            <ul class="donate-card__items">
+              <li>ulei, făină, zahăr,</li>
+              <li>orez, paste,</li>
+              <li>conserve,</li>
+              <li>dulciuri pentru copii</li>
+              <li>produse de igienă de bază</li>
+            </ul>
+            <a
+              href="#"
+              class="btn btn--primary"
+              data-open-modal="family"
+              data-amount="150"
+              >Dăruiește 150 lei &rsaquo;</a
+            >
+          </div>
+
+          <!-- Tier 250 -->
+          <div class="donate-card donate-card--tier">
+            <div class="donate-card__price">250 lei</div>
+            <h3 class="donate-card__tier-name">
+              Lumină<br />care aduce liniște
+            </h3>
+            <div class="donate-card__img donate-card__img--small">
+              <img
+                src="images/tier-250.svg"
+                alt="Pachet 250 lei"
+                loading="lazy"
+              />
+            </div>
+            <ul class="donate-card__items">
+              <li>toate produsele din</li>
+              <li>pachetul de 150 lei +</li>
+              <li>coate, produse</li>
+              <li>pentru cură,</li>
+              <li>cozonac, produse</li>
+              <li>suplimentare ermitibilitate</li>
+            </ul>
+            <a
+              href="#"
+              class="btn btn--primary"
+              data-open-modal="family"
+              data-amount="250"
+              >Dăruiește 250 lei &rsaquo;</a
+            >
+          </div>
+
+          <!-- Tier 400 -->
+          <div class="donate-card donate-card--tier">
+            <div class="donate-card__price">400 lei</div>
+            <h3 class="donate-card__tier-name">Lumină<br />deplină</h3>
+            <div class="donate-card__img donate-card__img--small">
+              <img
+                src="images/tier-400.svg"
+                alt="Pachet 400 lei"
+                loading="lazy"
+              />
+            </div>
+            <ul class="donate-card__items">
+              <li>pachet alimentar complet</li>
+              <li>produse pentru masa festivă</li>
+              <li>alimente pentru mai multe zile</li>
+              <li>produse de igienă,</li>
+              <li>dulciuri pentru copii</li>
+            </ul>
+            <a
+              href="#"
+              class="btn btn--primary"
+              data-open-modal="family"
+              data-amount="400"
+              >Dăruiește 400 lei &rsaquo;</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== VREI SA AJUTI ALTFEL ========== -->
+    <section class="section other-help" id="altfel">
+      <div class="container">
+        <h2 class="section__title section__title--decorated">
+          Vrei să ajuți altfel?
+        </h2>
+        <ul class="other-help__list">
+          <li>
+            <span class="check-icon check-icon--gold">&#10003;</span>
+            <strong>Donare de alimente</strong> (ouă, cozonaci, sarmale,
+            platouri, platouri)
+          </li>
+          <li>
+            <span class="check-icon check-icon--gold">&#10003;</span>
+            Voluntariat
+          </li>
+          <li>
+            <span class="check-icon check-icon--gold">&#10003;</span>
+            Redirecționează 3,5%
+          </li>
+        </ul>
+        <a
+          href="https://something-new.ro/"
+          target="_blank"
+          class="btn btn--primary"
+          >Contactează-ne &rsaquo;</a
+        >
+      </div>
+    </section>
+
+    <!-- ========== FOOTER CTA ========== -->
+    <footer class="footer" id="footer">
+      <div class="container">
+        <p class="footer__text">
+          A <em>fi lumină</em> înseamnă să fii prezent.<br />
+          Să aduci <strong>speranță</strong> acolo unde pare că
+          <strong>nu mai e.</strong>
+        </p>
+        <a href="#implica" class="btn btn--primary btn--lg"
+          >Fii o Lumină astăzi &rsaquo;</a
+        >
+      </div>
+    </footer>
+
+    <!-- ========== MODAL: DONATIE FAMILIE (fixa) ========== -->
+    <div class="modal" id="modalFamily" aria-hidden="true">
+      <div class="modal__overlay" data-close-modal></div>
+      <div class="modal__content">
+        <button class="modal__close" data-close-modal aria-label="Închide">
+          &times;
+        </button>
+        <h3 class="modal__title">
+          Dăruiește <span id="familyModalAmount">150</span> lei
+        </h3>
+        <p class="modal__desc" id="familyModalDesc">
+          Pachet alimentar pentru o familie nevoiașă
+        </p>
+        <form class="modal__form" id="familyDonationForm">
+          <input
+            type="hidden"
+            name="donation_type"
+            id="familyDonationType"
+            value="family_150"
+          />
+          <input type="hidden" name="amount" id="familyAmount" value="150" />
+          <div class="form-group">
+            <label for="familyName">Nume *</label>
+            <input
+              type="text"
+              id="familyName"
+              name="donor_name"
+              required
+              placeholder="Numele tău"
+            />
+          </div>
+          <div class="form-group">
+            <label for="familyEmail">Email *</label>
+            <input
+              type="email"
+              id="familyEmail"
+              name="donor_email"
+              required
+              placeholder="email@exemplu.ro"
+            />
+          </div>
+          <div class="form-group">
+            <label for="familyPhone">Telefon *</label>
+            <input
+              type="tel"
+              id="familyPhone"
+              name="donor_phone"
+              required
+              placeholder="07XX XXX XXX"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn--primary btn--full"
+            id="familySubmitBtn"
+          >
+            Donează <span id="familySubmitAmount">150</span> lei
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========== MODAL: DONATIE MASA FESTIVA (variabila) ========== -->
+    <div class="modal" id="modalFestive" aria-hidden="true">
+      <div class="modal__overlay" data-close-modal></div>
+      <div class="modal__content">
+        <button class="modal__close" data-close-modal aria-label="Închide">
+          &times;
+        </button>
+        <h3 class="modal__title">Susține Masa Festivă</h3>
+        <p class="modal__desc">Alege suma cu care dorești să contribui</p>
+
+        <div class="amount-presets">
+          <button type="button" class="amount-btn" data-preset="50">
+            50 lei
+          </button>
+          <button type="button" class="amount-btn" data-preset="100">
+            100 lei
+          </button>
+          <button type="button" class="amount-btn active" data-preset="200">
+            200 lei
+          </button>
+          <button type="button" class="amount-btn" data-preset="500">
+            500 lei
+          </button>
+        </div>
+        <div class="form-group">
+          <label for="festiveCustomAmount">Altă sumă (lei)</label>
+          <input
+            type="number"
+            id="festiveCustomAmount"
+            min="10"
+            step="1"
+            placeholder="Introdu suma dorită"
+          />
+        </div>
+
+        <form class="modal__form" id="festiveDonationForm">
+          <input type="hidden" name="donation_type" value="campaign" />
+          <input type="hidden" name="amount" id="festiveAmount" value="200" />
+          <div class="form-group">
+            <label for="festiveName">Nume *</label>
+            <input
+              type="text"
+              id="festiveName"
+              name="donor_name"
+              required
+              placeholder="Numele tău"
+            />
+          </div>
+          <div class="form-group">
+            <label for="festiveEmail">Email *</label>
+            <input
+              type="email"
+              id="festiveEmail"
+              name="donor_email"
+              required
+              placeholder="email@exemplu.ro"
+            />
+          </div>
+          <div class="form-group">
+            <label for="festivePhone">Telefon *</label>
+            <input
+              type="tel"
+              id="festivePhone"
+              name="donor_phone"
+              required
+              placeholder="07XX XXX XXX"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn--primary btn--full"
+            id="festiveSubmitBtn"
+          >
+            Donează <span id="festiveSubmitAmount">200</span> lei
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/progress.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/donations.js"></script>
+  </body>
+</html>

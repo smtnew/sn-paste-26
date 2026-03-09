@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mulțumim! | Fii o Lumină de Paște</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .result-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .result-card {
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      box-shadow: var(--shadow-lg);
+    }
+    .result-card__icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--white);
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .result-card__title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .result-card__text {
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .result-card__actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-page">
+    <div class="result-card">
+      <div class="result-card__icon">&#10003;</div>
+      <h1 class="result-card__title">Mulțumim!</h1>
+      <p class="result-card__text">
+        Donația ta a fost procesată cu succes.<br>
+        Ai adus <em>lumină</em> în viața unei familii de Paște.<br><br>
+        Vei primi o confirmare pe email.
+      </p>
+      <div class="result-card__actions">
+        <a href="index.html" class="btn btn--primary">Înapoi la campanie</a>
+        <a href="https://something-new.ro/" target="_blank" class="btn btn--outline">Despre asociație</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

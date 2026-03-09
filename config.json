@@ -1,0 +1,5 @@
+{
+  "supabaseUrl": "https://jgkintpjsquktukjcvef.supabase.co",
+  "supabasePublishableKey": "YOUR_PUBLISHABLE_KEY",
+  "createPaymentUrl": "https://YOUR_PROJECT.supabase.co/functions/v1/create-payment"
+}

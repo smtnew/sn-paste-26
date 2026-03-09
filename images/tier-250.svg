@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#FDF3D6"/>
+  <!-- Bag -->
+  <path d="M120 90 L120 215 Q120 230 135 230 L265 230 Q280 230 280 215 L280 90 Z" fill="#D4A017" opacity="0.25"/>
+  <path d="M145 90 Q145 55 200 55 Q255 55 255 90" stroke="#D4A017" stroke-width="4" fill="none" opacity="0.4"/>
+  <!-- Items - more than tier 150 -->
+  <rect x="140" y="120" width="35" height="45" rx="4" fill="#B8860B" opacity="0.3"/>
+  <rect x="185" y="130" width="30" height="35" rx="4" fill="#D4A017" opacity="0.35"/>
+  <rect x="225" y="125" width="28" height="40" rx="4" fill="#B8860B" opacity="0.25"/>
+  <circle cx="160" cy="195" r="15" fill="#B8860B" opacity="0.25"/>
+  <circle cx="200" cy="200" r="12" fill="#D4A017" opacity="0.3"/>
+  <circle cx="240" cy="195" r="14" fill="#B8860B" opacity="0.2"/>
+  <text x="200" y="270" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#B8860B" opacity="0.6">Pachet extins</text>
+</svg>

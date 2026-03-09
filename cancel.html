@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plată anulată | Fii o Lumină de Paște</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .result-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .result-card {
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      box-shadow: var(--shadow-lg);
+    }
+    .result-card__icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--border);
+      color: var(--text-light);
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .result-card__title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .result-card__text {
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-page">
+    <div class="result-card">
+      <div class="result-card__icon">&#10007;</div>
+      <h1 class="result-card__title">Plata a fost anulată</h1>
+      <p class="result-card__text">
+        Se pare că plata nu a fost finalizată.<br>
+        Nu ți s-a debitat nicio sumă.<br><br>
+        Poți încerca din nou oricând.
+      </p>
+      <a href="index.html" class="btn btn--primary">Încearcă din nou</a>
+    </div>
+  </div>
+</body>
+</html>

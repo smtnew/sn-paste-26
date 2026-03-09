@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#FDF3D6"/>
+  <circle cx="170" cy="105" r="40" fill="#D4A017" opacity="0.3"/>
+  <circle cx="170" cy="95" r="20" fill="#D4A017" opacity="0.5"/>
+  <path d="M135 145 Q170 120 205 145 Q210 170 205 190 L135 190 Q130 170 135 145Z" fill="#D4A017" opacity="0.3"/>
+  <circle cx="230" cy="105" r="40" fill="#B8860B" opacity="0.25"/>
+  <circle cx="230" cy="95" r="20" fill="#B8860B" opacity="0.4"/>
+  <path d="M195 145 Q230 120 265 145 Q270 170 265 190 L195 190 Q190 170 195 145Z" fill="#B8860B" opacity="0.25"/>
+  <circle cx="200" cy="130" r="16" fill="#D4A017" opacity="0.35"/>
+  <circle cx="200" cy="123" r="9" fill="#D4A017" opacity="0.45"/>
+  <text x="200" y="250" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#B8860B" opacity="0.7">Familie, Salaj</text>
+</svg>
