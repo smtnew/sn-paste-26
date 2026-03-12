@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistici Campanie | Fii o Lumină de Paște</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <style>
+      :root {
+        --gold: #d4a017;
+        --gold-dark: #b8860b;
+        --gold-light: #f5deb3;
+        --gold-bg: #fdf3d6;
+        --cream: #fdf8f0;
+        --white: #ffffff;
+        --text: #2d2d2d;
+        --text-light: #666666;
+        --border: #e8e0d4;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+        --radius: 12px;
+        --radius-sm: 8px;
+        --font-heading: "Playfair Display", Georgia, serif;
+        --font-body: "Open Sans", -apple-system, sans-serif;
+        --red: #e53e3e;
+        --green: #38a169;
+        --blue: #3182ce;
+        --purple: #805ad5;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font-body);
+        color: var(--text);
+        background: var(--cream);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+
+      /* -------- LOGIN -------- */
+      #login-screen {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .login-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 40px 36px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border);
+      }
+      .login-card__logo {
+        text-align: center;
+        margin-bottom: 8px;
+      }
+      .login-card__logo span {
+        font-size: 2rem;
+      }
+      .login-card h1 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 4px;
+      }
+      .login-card p {
+        text-align: center;
+        color: var(--text-light);
+        font-size: 0.85rem;
+        margin-bottom: 24px;
+      }
+      .form-group {
+        margin-bottom: 14px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-size: 1rem;
+        transition: border-color 0.2s;
+        background: var(--white);
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--gold);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 24px;
+        border-radius: 50px;
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .btn--primary {
+        background: var(--gold);
+        color: var(--text);
+        border-color: var(--gold);
+      }
+      .btn--primary:hover {
+        background: var(--gold-dark);
+        border-color: var(--gold-dark);
+        color: var(--white);
+      }
+      .btn--outline {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+      }
+      .btn--outline:hover {
+        border-color: var(--text);
+      }
+      .btn--full {
+        width: 100%;
+      }
+      .btn--sm {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+      }
+      .btn--danger {
+        background: var(--red);
+        color: var(--white);
+        border-color: var(--red);
+      }
+      .btn--danger:hover {
+        opacity: 0.85;
+      }
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .login-error {
+        color: var(--red);
+        font-size: 0.83rem;
+        text-align: center;
+        margin-top: 10px;
+        min-height: 20px;
+      }
+      .login-note {
+        margin-top: 20px;
+        padding: 12px 14px;
+        background: var(--gold-bg);
+        border: 1px solid var(--gold-light);
+        border-radius: var(--radius-sm);
+        font-size: 0.78rem;
+        color: var(--text-light);
+        line-height: 1.5;
+      }
+      .login-note strong {
+        color: var(--text);
+      }
+      .login-note code {
+        background: rgba(0, 0, 0, 0.07);
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.85em;
+      }
+
+      /* -------- DASHBOARD -------- */
+      #dashboard {
+        display: none;
+      }
+      .dash-header {
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        padding: 0 24px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow);
+      }
+      .dash-header__inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        gap: 16px;
+      }
+      .dash-header__brand {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .dash-header__brand span {
+        font-size: 1.3rem;
+      }
+      .dash-header__user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.82rem;
+        color: var(--text-light);
+      }
+      .dash-main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 28px 24px 60px;
+      }
+
+      /* -------- FILTERS -------- */
+      .filters-bar {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 16px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: flex-end;
+        margin-bottom: 24px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 140px;
+      }
+      .filter-group label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .filter-group input,
+      .filter-group select {
+        padding: 8px 10px;
+        border: 2px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        background: var(--white);
+        transition: border-color 0.2s;
+      }
+      .filter-group input:focus,
+      .filter-group select:focus {
+        outline: none;
+        border-color: var(--gold);
+      }
+      .filters-actions {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+      }
+
+      /* -------- KPI CARDS -------- */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .kpi-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+      .kpi-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--accent, var(--gold));
+      }
+      .kpi-card__icon {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .kpi-card__value {
+        font-family: var(--font-heading);
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.1;
+        margin-bottom: 4px;
+      }
+      .kpi-card__label {
+        font-size: 0.78rem;
+        color: var(--text-light);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .kpi-card__sub {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        margin-top: 4px;
+      }
+
+      /* -------- CHARTS GRID -------- */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+      .chart-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      .chart-card__title {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .chart-card__title span {
+        font-size: 1.1rem;
+      }
+      .chart-wrap {
+        position: relative;
+        height: 260px;
+      }
+
+      /* -------- TABLE -------- */
+      .table-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .table-card__header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .table-card__title {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .table-card__title span {
+        font-size: 1.1rem;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.83rem;
+      }
+      thead th {
+        background: var(--cream);
+        padding: 10px 14px;
+        text-align: left;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      thead th.sortable {
+        cursor: pointer;
+        user-select: none;
+      }
+      thead th.sortable:hover {
+        color: var(--text);
+      }
+      thead th .sort-icon {
+        margin-left: 4px;
+        opacity: 0.4;
+      }
+      thead th.asc .sort-icon,
+      thead th.desc .sort-icon {
+        opacity: 1;
+      }
+      tbody tr {
+        border-bottom: 1px solid var(--border);
+        transition: background 0.15s;
+      }
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: var(--cream);
+      }
+      tbody td {
+        padding: 10px 14px;
+        color: var(--text);
+        vertical-align: middle;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 10px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .badge--family_150 {
+        background: #ebf8ff;
+        color: #2b6cb0;
+      }
+      .badge--family_250 {
+        background: #f0fff4;
+        color: #276749;
+      }
+      .badge--family_400 {
+        background: #faf5ff;
+        color: #6b46c1;
+      }
+      .badge--campaign {
+        background: var(--gold-bg);
+        color: var(--gold-dark);
+      }
+      .table-footer {
+        padding: 12px 20px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.82rem;
+        color: var(--text-light);
+      }
+      .pagination {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .pagination button {
+        padding: 4px 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--white);
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: var(--font-body);
+        color: var(--text);
+      }
+      .pagination button:hover {
+        border-color: var(--gold);
+        background: var(--gold-bg);
+      }
+      .pagination button.active {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--white);
+        font-weight: 700;
+      }
+      .pagination button:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+
+      /* -------- LOADING / EMPTY -------- */
+      .state-loading,
+      .state-empty {
+        text-align: center;
+        padding: 48px 24px;
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+      .state-loading span,
+      .state-empty span {
+        font-size: 2rem;
+        display: block;
+        margin-bottom: 12px;
+      }
+      .spinner {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border: 3px solid var(--gold-bg);
+        border-top-color: var(--gold);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 12px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* -------- PROGRESS BAR -------- */
+      .campaign-progress {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        margin-bottom: 24px;
+        border-top: 3px solid var(--gold);
+      }
+      .campaign-progress__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .campaign-progress__name {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .campaign-progress__pct {
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--gold-dark);
+      }
+      .progress-bar {
+        width: 100%;
+        height: 12px;
+        background: var(--gold-bg);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 8px;
+      }
+      .progress-bar__fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+        border-radius: 10px;
+        transition: width 1s ease-out;
+      }
+      .progress-bar__meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        color: var(--text-light);
+      }
+      .progress-bar__meta strong {
+        color: var(--text);
+      }
+
+      /* -------- SETUP NOTE -------- */
+      .setup-banner {
+        display: none;
+        background: #fff3cd;
+        border: 1px solid #fbbf24;
+        border-radius: var(--radius-sm);
+        padding: 12px 16px;
+        font-size: 0.82rem;
+        color: #92400e;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .setup-banner code {
+        background: rgba(0, 0, 0, 0.08);
+        padding: 1px 5px;
+        border-radius: 3px;
+        font-family: monospace;
+        font-size: 0.9em;
+      }
+
+      /* -------- RESPONSIVE -------- */
+      @media (max-width: 900px) {
+        .charts-grid {
+          grid-template-columns: 1fr;
+        }
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .dash-main {
+          padding: 16px 14px 40px;
+        }
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .filters-bar {
+          flex-direction: column;
+        }
+        .filter-group {
+          min-width: 100%;
+        }
+        .dash-header__brand {
+          font-size: 0.95rem;
+        }
+        .kpi-card__value {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ====== LOGIN SCREEN ====== -->
+    <div id="login-screen">
+      <div class="login-card">
+        <div class="login-card__logo"><span>🕯️</span></div>
+        <h1>Statistici Campanie</h1>
+        <p>Fii o Lumină de Paște &mdash; Asociația Something New</p>
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="admin@exemplu.ro"
+            autocomplete="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Parolă</label>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+        </div>
+        <button
+          class="btn btn--primary btn--full"
+          id="loginBtn"
+          onclick="handleLogin()"
+        >
+          Intră în dashboard
+        </button>
+        <div class="login-error" id="loginError"></div>
+      </div>
+    </div>
+
+    <!-- ====== DASHBOARD ====== -->
+    <div id="dashboard">
+      <!-- Header -->
+      <header class="dash-header">
+        <div class="dash-header__inner">
+          <div class="dash-header__brand">
+            <span>🕯️</span> Dashboard Campanie
+          </div>
+          <div class="dash-header__user">
+            <span id="userEmail"></span>
+            <button class="btn btn--outline btn--sm" onclick="handleLogout()">
+              Deconectare
+            </button>
+            <a href="index.html" class="btn btn--outline btn--sm"
+              >← Pagina principală</a
+            >
+          </div>
+        </div>
+      </header>
+
+      <main class="dash-main">
+        <!-- Setup banner (shown on RLS error) -->
+        <div class="setup-banner" id="setupBanner">
+          ⚠️ <strong>Acces restricționat la plăți.</strong> Rulează
+          <code>supabase/add_stats_rls.sql</code> în Supabase SQL Editor pentru
+          a activa statisticile.
+        </div>
+
+        <!-- Campaign progress -->
+        <div class="campaign-progress" id="campaignCard" style="display: none">
+          <div class="campaign-progress__header">
+            <div class="campaign-progress__name" id="campaignName">—</div>
+            <div class="campaign-progress__pct" id="campaignPct">0%</div>
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress-bar__fill"
+              id="campaignFill"
+              style="width: 0%"
+            ></div>
+          </div>
+          <div class="progress-bar__meta">
+            <span>Strâns: <strong id="campaignRaised">0</strong> lei</span>
+            <span>Status: <strong id="campaignStatus">—</strong></span>
+            <span>Țintă: <strong id="campaignTarget">—</strong> lei</span>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <label>De la data</label>
+            <input type="date" id="filterFrom" />
+          </div>
+          <div class="filter-group">
+            <label>Până la data</label>
+            <input type="date" id="filterTo" />
+          </div>
+          <div class="filter-group">
+            <label>Tip donație</label>
+            <select id="filterType">
+              <option value="">Toate tipurile</option>
+              <option value="family_150">Familie 150 lei</option>
+              <option value="family_250">Familie 250 lei</option>
+              <option value="family_400">Familie 400 lei</option>
+              <option value="campaign">Masă Festivă</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Caută donator</label>
+            <input
+              type="text"
+              id="filterSearch"
+              placeholder="Nume sau email…"
+            />
+          </div>
+          <div class="filters-actions">
+            <button class="btn btn--primary" onclick="applyFilters()">
+              Aplică filtre
+            </button>
+            <button class="btn btn--outline" onclick="resetFilters()">
+              Resetează
+            </button>
+            <button
+              class="btn btn--outline"
+              onclick="exportCSV()"
+              title="Exportă CSV"
+            >
+              ⬇ CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiGrid">
+          <div class="kpi-card" style="--accent: var(--gold)">
+            <span class="kpi-card__icon">💰</span>
+            <div class="kpi-card__value" id="kpiTotal">—</div>
+            <div class="kpi-card__label">Total strâns (lei)</div>
+            <div class="kpi-card__sub" id="kpiTotalSub"></div>
+          </div>
+          <div class="kpi-card" style="--accent: #3182ce">
+            <span class="kpi-card__icon">🧾</span>
+            <div class="kpi-card__value" id="kpiCount">—</div>
+            <div class="kpi-card__label">Total plăți</div>
+            <div class="kpi-card__sub" id="kpiCountSub"></div>
+          </div>
+          <div class="kpi-card" style="--accent: #38a169">
+            <span class="kpi-card__icon">👥</span>
+            <div class="kpi-card__value" id="kpiDonors">—</div>
+            <div class="kpi-card__label">Donatori unici</div>
+            <div class="kpi-card__sub" id="kpiDonorsSub"></div>
+          </div>
+          <div class="kpi-card" style="--accent: #805ad5">
+            <span class="kpi-card__icon">📊</span>
+            <div class="kpi-card__value" id="kpiAvg">—</div>
+            <div class="kpi-card__label">Donație medie (lei)</div>
+            <div class="kpi-card__sub" id="kpiAvgSub"></div>
+          </div>
+          <div class="kpi-card" style="--accent: #e53e3e">
+            <span class="kpi-card__icon">🏆</span>
+            <div class="kpi-card__value" id="kpiMax">—</div>
+            <div class="kpi-card__label">Donație maximă (lei)</div>
+            <div class="kpi-card__sub" id="kpiMaxSub"></div>
+          </div>
+          <div class="kpi-card" style="--accent: #dd6b20">
+            <span class="kpi-card__icon">📅</span>
+            <div class="kpi-card__value" id="kpiToday">—</div>
+            <div class="kpi-card__label">Astăzi (lei)</div>
+            <div class="kpi-card__sub" id="kpiTodaySub"></div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-card__title">
+              <span>📈</span> Donații în timp (zilnic)
+            </div>
+            <div class="chart-wrap">
+              <canvas id="chartTimeline"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card__title">
+              <span>🥧</span> Distribuție pe tip
+            </div>
+            <div class="chart-wrap">
+              <canvas id="chartTypes"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payments table -->
+        <div class="table-card">
+          <div class="table-card__header">
+            <div class="table-card__title"><span>📋</span> Lista plăților</div>
+            <div
+              id="tableInfo"
+              style="font-size: 0.82rem; color: var(--text-light)"
+            ></div>
+          </div>
+          <div class="table-wrap">
+            <table id="paymentsTable">
+              <thead>
+                <tr>
+                  <th class="sortable" data-col="created_at">
+                    Data <span class="sort-icon">↕</span>
+                  </th>
+                  <th class="sortable" data-col="donor_name">
+                    Donator <span class="sort-icon">↕</span>
+                  </th>
+                  <th>Email</th>
+                  <th>Telefon</th>
+                  <th class="sortable" data-col="donation_type">
+                    Tip <span class="sort-icon">↕</span>
+                  </th>
+                  <th class="sortable" data-col="amount">
+                    Sumă (lei) <span class="sort-icon">↕</span>
+                  </th>
+                  <th>Ref. plată</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <tr>
+                  <td colspan="7">
+                    <div class="state-loading">
+                      <div class="spinner"></div>
+                      <br />Se încarcă datele…
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <div id="paginationInfo">—</div>
+            <div class="pagination" id="pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      "use strict";
+
+      // ── CONFIG & SUPABASE ────────────────────────────────────────
+      let supabase = null;
+      let allPayments = [];
+      let filteredPayments = [];
+      let currentPage = 1;
+      const PAGE_SIZE = 25;
+      let sortCol = "created_at";
+      let sortDir = "desc";
+      let chartTimeline = null;
+      let chartTypes = null;
+
+      const TYPE_LABELS = {
+        family_150: "Familie 150 lei",
+        family_250: "Familie 250 lei",
+        family_400: "Familie 400 lei",
+        campaign: "Masă Festivă",
+      };
+      const TYPE_COLORS = {
+        family_150: "#3182ce",
+        family_250: "#38a169",
+        family_400: "#805ad5",
+        campaign: "#d4a017",
+      };
+
+      // ── INIT ────────────────────────────────────────────────────
+      async function init() {
+        const cfg = await fetch("config.json")
+          .then((r) => r.json())
+          .catch(() => null);
+        if (!cfg || !cfg.supabaseUrl || !cfg.supabasePublishableKey) {
+          showLoginError("config.json lipsește sau este incomplet.");
+          return;
+        }
+
+        supabase = window.supabase.createClient(
+          cfg.supabaseUrl,
+          cfg.supabasePublishableKey,
+        );
+
+        // Check existing session
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (session) {
+          showDashboard(session.user);
+        } else {
+          showLogin();
+        }
+
+        // Auth state listener
+        supabase.auth.onAuthStateChange((_event, session) => {
+          if (session) showDashboard(session.user);
+          else showLogin();
+        });
+
+        // Enter key on login
+        document
+          .getElementById("loginPassword")
+          .addEventListener("keydown", (e) => {
+            if (e.key === "Enter") handleLogin();
+          });
+        document
+          .getElementById("loginEmail")
+          .addEventListener("keydown", (e) => {
+            if (e.key === "Enter") handleLogin();
+          });
+
+        // Sort headers
+        document.querySelectorAll("thead th.sortable").forEach((th) => {
+          th.addEventListener("click", () => {
+            const col = th.dataset.col;
+            if (sortCol === col) {
+              sortDir = sortDir === "asc" ? "desc" : "asc";
+            } else {
+              sortCol = col;
+              sortDir = "desc";
+            }
+            document.querySelectorAll("thead th.sortable").forEach((h) => {
+              h.classList.remove("asc", "desc");
+            });
+            th.classList.add(sortDir);
+            renderTable();
+          });
+        });
+      }
+
+      function showLogin() {
+        document.getElementById("login-screen").style.display = "flex";
+        document.getElementById("dashboard").style.display = "none";
+      }
+
+      function showDashboard(user) {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        document.getElementById("userEmail").textContent = user.email;
+        loadData();
+      }
+
+      // ── AUTH ────────────────────────────────────────────────────
+      async function handleLogin() {
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        const btn = document.getElementById("loginBtn");
+        const errEl = document.getElementById("loginError");
+
+        if (!email || !password) {
+          errEl.textContent = "Completează email-ul și parola.";
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Se conectează…";
+        errEl.textContent = "";
+
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) {
+          errEl.textContent =
+            error.message === "Invalid login credentials"
+              ? "Email sau parolă incorectă."
+              : error.message;
+          btn.disabled = false;
+          btn.textContent = "Intră în dashboard";
+        }
+      }
+
+      async function handleLogout() {
+        await supabase.auth.signOut();
+      }
+
+      function showLoginError(msg) {
+        document.getElementById("loginError").textContent = msg;
+      }
+
+      // ── DATA LOADING ────────────────────────────────────────────
+      async function loadData() {
+        await Promise.all([loadCampaign(), loadPayments()]);
+      }
+
+      async function loadCampaign() {
+        const { data, error } = await supabase
+          .from("campaigns")
+          .select("id, name, target_amount, amount_raised, status, created_at")
+          .order("created_at", { ascending: false })
+          .limit(1);
+
+        if (error || !data || data.length === 0) return;
+        const c = data[0];
+        const pct = Math.min(
+          Math.round((c.amount_raised / c.target_amount) * 100),
+          100,
+        );
+
+        document.getElementById("campaignName").textContent = c.name;
+        document.getElementById("campaignPct").textContent = pct + "%";
+        document.getElementById("campaignRaised").textContent = formatNum(
+          c.amount_raised,
+        );
+        document.getElementById("campaignTarget").textContent = formatNum(
+          c.target_amount,
+        );
+        document.getElementById("campaignStatus").textContent =
+          c.status === "active" ? "🟢 Activă" : "✅ Finalizată";
+
+        setTimeout(() => {
+          document.getElementById("campaignFill").style.width = pct + "%";
+        }, 300);
+        document.getElementById("campaignCard").style.display = "block";
+      }
+
+      async function loadPayments() {
+        const { data, error } = await supabase
+          .from("payments")
+          .select(
+            "id, amount, payment_ref, donor_name, donor_email, donor_phone, donation_type, created_at, campaign_id",
+          )
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.error("Payments error:", error);
+          if (error.code === "42501" || error.message.includes("policy")) {
+            document.getElementById("setupBanner").style.display = "block";
+          }
+          renderEmptyState(
+            "Nu s-au putut încărca plățile. Verifică politicile RLS.",
+          );
+          return;
+        }
+
+        allPayments = data || [];
+        filteredPayments = [...allPayments];
+        setDefaultDateFilters();
+        updateAll();
+      }
+
+      function setDefaultDateFilters() {
+        if (allPayments.length === 0) return;
+        const dates = allPayments.map((p) => p.created_at.slice(0, 10)).sort();
+        document.getElementById("filterFrom").value = dates[0];
+        document.getElementById("filterTo").value = new Date()
+          .toISOString()
+          .slice(0, 10);
+      }
+
+      // ── FILTERS ────────────────────────────────────────────────
+      function applyFilters() {
+        const from = document.getElementById("filterFrom").value;
+        const to = document.getElementById("filterTo").value;
+        const type = document.getElementById("filterType").value;
+        const q = document
+          .getElementById("filterSearch")
+          .value.trim()
+          .toLowerCase();
+
+        filteredPayments = allPayments.filter((p) => {
+          const d = p.created_at.slice(0, 10);
+          if (from && d < from) return false;
+          if (to && d > to) return false;
+          if (type && p.donation_type !== type) return false;
+          if (q) {
+            const name = (p.donor_name || "").toLowerCase();
+            const email = (p.donor_email || "").toLowerCase();
+            if (!name.includes(q) && !email.includes(q)) return false;
+          }
+          return true;
+        });
+
+        currentPage = 1;
+        updateAll();
+      }
+
+      function resetFilters() {
+        setDefaultDateFilters();
+        document.getElementById("filterType").value = "";
+        document.getElementById("filterSearch").value = "";
+        filteredPayments = [...allPayments];
+        currentPage = 1;
+        updateAll();
+      }
+
+      function updateAll() {
+        renderKPIs();
+        renderCharts();
+        renderTable();
+      }
+
+      // ── KPIs ────────────────────────────────────────────────────
+      function renderKPIs() {
+        const data = filteredPayments;
+        const total = data.reduce((s, p) => s + p.amount, 0);
+        const count = data.length;
+        const donors = new Set(data.map((p) => p.donor_email).filter(Boolean))
+          .size;
+        const avg = count > 0 ? Math.round(total / count) : 0;
+        const max = count > 0 ? Math.max(...data.map((p) => p.amount)) : 0;
+        const maxDonor =
+          count > 0
+            ? data.find((p) => p.amount === max)?.donor_name || "—"
+            : "—";
+        const today = new Date().toISOString().slice(0, 10);
+        const todayPayments = data.filter(
+          (p) => p.created_at.slice(0, 10) === today,
+        );
+        const todayTotal = todayPayments.reduce((s, p) => s + p.amount, 0);
+
+        setText("kpiTotal", formatNum(total));
+        setText(
+          "kpiTotalSub",
+          `din ${allPayments.reduce((s, p) => s + p.amount, 0).toLocaleString("ro-RO")} lei total`,
+        );
+        setText("kpiCount", count.toLocaleString("ro-RO"));
+        setText(
+          "kpiCountSub",
+          count !== allPayments.length
+            ? `din ${allPayments.length} total`
+            : "toate plățile",
+        );
+        setText("kpiDonors", donors.toLocaleString("ro-RO"));
+        setText(
+          "kpiDonorsSub",
+          donors > 0 ? `${(total / donors).toFixed(0)} lei/donator` : "",
+        );
+        setText("kpiAvg", formatNum(avg));
+        setText(
+          "kpiAvgSub",
+          count > 0
+            ? `median: ${formatNum(median(data.map((p) => p.amount)))} lei`
+            : "",
+        );
+        setText("kpiMax", formatNum(max));
+        setText("kpiMaxSub", maxDonor);
+        setText("kpiToday", formatNum(todayTotal));
+        setText("kpiTodaySub", `${todayPayments.length} plăți astăzi`);
+      }
+
+      function median(arr) {
+        if (arr.length === 0) return 0;
+        const s = [...arr].sort((a, b) => a - b);
+        const mid = Math.floor(s.length / 2);
+        return s.length % 2 === 0
+          ? Math.round((s[mid - 1] + s[mid]) / 2)
+          : s[mid];
+      }
+
+      // ── CHARTS ────────────────────────────────────────────────
+      function renderCharts() {
+        renderTimeline();
+        renderTypesPie();
+      }
+
+      function renderTimeline() {
+        // Group by day
+        const byDay = {};
+        filteredPayments.forEach((p) => {
+          const d = p.created_at.slice(0, 10);
+          if (!byDay[d]) byDay[d] = { total: 0, count: 0 };
+          byDay[d].total += p.amount;
+          byDay[d].count++;
+        });
+        const days = Object.keys(byDay).sort();
+        const totals = days.map((d) => byDay[d].total);
+        const counts = days.map((d) => byDay[d].count);
+
+        const ctx = document.getElementById("chartTimeline").getContext("2d");
+        if (chartTimeline) chartTimeline.destroy();
+        chartTimeline = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: days.map((d) => formatDateLabel(d)),
+            datasets: [
+              {
+                label: "Sumă (lei)",
+                data: totals,
+                backgroundColor: "rgba(212,160,23,0.7)",
+                borderColor: "#b8860b",
+                borderWidth: 1,
+                yAxisID: "y",
+                order: 2,
+              },
+              {
+                label: "Nr. plăți",
+                data: counts,
+                type: "line",
+                borderColor: "#3182ce",
+                backgroundColor: "rgba(49,130,206,0.1)",
+                tension: 0.3,
+                pointRadius: 3,
+                fill: false,
+                yAxisID: "y2",
+                order: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
+            plugins: {
+              legend: {
+                position: "top",
+                labels: {
+                  font: { family: "Open Sans", size: 11 },
+                  boxWidth: 12,
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => {
+                    if (ctx.dataset.yAxisID === "y")
+                      return ` ${ctx.parsed.y.toLocaleString("ro-RO")} lei`;
+                    return ` ${ctx.parsed.y} plăți`;
+                  },
+                },
+              },
+            },
+            scales: {
+              x: { ticks: { font: { size: 10 }, maxRotation: 45 } },
+              y: {
+                position: "left",
+                title: { display: true, text: "Lei", font: { size: 10 } },
+                ticks: { font: { size: 10 } },
+              },
+              y2: {
+                position: "right",
+                title: { display: true, text: "Plăți", font: { size: 10 } },
+                grid: { drawOnChartArea: false },
+                ticks: { font: { size: 10 }, stepSize: 1 },
+              },
+            },
+          },
+        });
+      }
+
+      function renderTypesPie() {
+        const byType = {};
+        filteredPayments.forEach((p) => {
+          byType[p.donation_type] = (byType[p.donation_type] || 0) + p.amount;
+        });
+
+        const types = Object.keys(byType);
+        const ctx = document.getElementById("chartTypes").getContext("2d");
+        if (chartTypes) chartTypes.destroy();
+        chartTypes = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: types.map((t) => TYPE_LABELS[t] || t),
+            datasets: [
+              {
+                data: types.map((t) => byType[t]),
+                backgroundColor: types.map((t) => TYPE_COLORS[t] || "#ccc"),
+                borderWidth: 2,
+                borderColor: "#fff",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  font: { family: "Open Sans", size: 11 },
+                  padding: 12,
+                  boxWidth: 14,
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => {
+                    const val = ctx.parsed;
+                    const total = ctx.dataset.data.reduce((s, v) => s + v, 0);
+                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    return ` ${val.toLocaleString("ro-RO")} lei (${pct}%)`;
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // ── TABLE ───────────────────────────────────────────────────
+      function renderTable() {
+        const sorted = sortPayments([...filteredPayments]);
+        const total = sorted.length;
+        const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+        if (currentPage > totalPages) currentPage = 1;
+
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const page = sorted.slice(start, start + PAGE_SIZE);
+
+        const tbody = document.getElementById("tableBody");
+
+        if (total === 0) {
+          tbody.innerHTML = `<tr><td colspan="7"><div class="state-empty"><span>🔍</span>Nicio plată găsită pentru filtrele selectate.</div></td></tr>`;
+          document.getElementById("tableInfo").textContent = "0 plăți";
+          document.getElementById("paginationInfo").textContent = "";
+          document.getElementById("pagination").innerHTML = "";
+          return;
+        }
+
+        tbody.innerHTML = page
+          .map(
+            (p) => `
+        <tr>
+          <td>${formatDateTime(p.created_at)}</td>
+          <td>${esc(p.donor_name || "—")}</td>
+          <td style="color:var(--text-light)">${esc(p.donor_email || "—")}</td>
+          <td style="color:var(--text-light)">${esc(p.donor_phone || "—")}</td>
+          <td><span class="badge badge--${p.donation_type}">${TYPE_LABELS[p.donation_type] || p.donation_type}</span></td>
+          <td style="font-weight:700;font-family:var(--font-heading)">${p.amount.toLocaleString("ro-RO")}</td>
+          <td style="color:var(--text-light);font-size:0.75rem;font-family:monospace">${esc(p.payment_ref || "—")}</td>
+        </tr>
+      `,
+          )
+          .join("");
+
+        document.getElementById("tableInfo").textContent =
+          `${total.toLocaleString("ro-RO")} plăți · ${sorted.reduce((s, p) => s + p.amount, 0).toLocaleString("ro-RO")} lei`;
+        document.getElementById("paginationInfo").textContent =
+          `${start + 1}–${Math.min(start + PAGE_SIZE, total)} din ${total}`;
+
+        renderPagination(totalPages);
+      }
+
+      function sortPayments(data) {
+        return data.sort((a, b) => {
+          let va = a[sortCol],
+            vb = b[sortCol];
+          if (sortCol === "amount") {
+            va = Number(va);
+            vb = Number(vb);
+          } else {
+            va = String(va || "");
+            vb = String(vb || "");
+          }
+          if (va < vb) return sortDir === "asc" ? -1 : 1;
+          if (va > vb) return sortDir === "asc" ? 1 : -1;
+          return 0;
+        });
+      }
+
+      function renderPagination(totalPages) {
+        const pg = document.getElementById("pagination");
+        if (totalPages <= 1) {
+          pg.innerHTML = "";
+          return;
+        }
+
+        let html = `<button onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>‹</button>`;
+
+        const range = pageRange(currentPage, totalPages);
+        range.forEach((p) => {
+          if (p === "…") {
+            html += `<button disabled>…</button>`;
+          } else {
+            html += `<button class="${p === currentPage ? "active" : ""}" onclick="goPage(${p})">${p}</button>`;
+          }
+        });
+
+        html += `<button onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>›</button>`;
+        pg.innerHTML = html;
+      }
+
+      function pageRange(cur, total) {
+        if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+        const pages = [1];
+        if (cur > 3) pages.push("…");
+        for (
+          let i = Math.max(2, cur - 1);
+          i <= Math.min(total - 1, cur + 1);
+          i++
+        )
+          pages.push(i);
+        if (cur < total - 2) pages.push("…");
+        pages.push(total);
+        return pages;
+      }
+
+      function goPage(p) {
+        currentPage = p;
+        renderTable();
+        document
+          .querySelector(".table-card")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function renderEmptyState(msg) {
+        document.getElementById("tableBody").innerHTML =
+          `<tr><td colspan="7"><div class="state-empty"><span>⚠️</span>${msg}</div></td></tr>`;
+      }
+
+      // ── EXPORT CSV ──────────────────────────────────────────────
+      function exportCSV() {
+        if (filteredPayments.length === 0) {
+          alert("Nicio plată de exportat.");
+          return;
+        }
+        const sorted = sortPayments([...filteredPayments]);
+        const headers = [
+          "Data",
+          "Donator",
+          "Email",
+          "Telefon",
+          "Tip",
+          "Suma (lei)",
+          "Referinta plata",
+        ];
+        const rows = sorted.map((p) => [
+          p.created_at.slice(0, 19).replace("T", " "),
+          p.donor_name || "",
+          p.donor_email || "",
+          p.donor_phone || "",
+          TYPE_LABELS[p.donation_type] || p.donation_type,
+          p.amount,
+          p.payment_ref || "",
+        ]);
+        const csv = [headers, ...rows]
+          .map((r) =>
+            r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","),
+          )
+          .join("\r\n");
+        const blob = new Blob(["\uFEFF" + csv], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `donatii_paste_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      // ── HELPERS ─────────────────────────────────────────────────
+      function formatNum(n) {
+        return Number(n).toLocaleString("ro-RO");
+      }
+
+      function formatDateLabel(d) {
+        const [y, m, day] = d.split("-");
+        return `${day}.${m}`;
+      }
+
+      function formatDateTime(iso) {
+        if (!iso) return "—";
+        const d = new Date(iso);
+        return (
+          d.toLocaleDateString("ro-RO", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }) +
+          " " +
+          d.toLocaleTimeString("ro-RO", { hour: "2-digit", minute: "2-digit" })
+        );
+      }
+
+      function setText(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      }
+
+      function esc(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      // ── START ────────────────────────────────────────────────────
+      init();
+    </script>
+  </body>
+</html>
