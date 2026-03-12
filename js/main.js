@@ -132,6 +132,27 @@
     });
   }
 
+  // ---- Ambassador Select Population ----
+  fetch('ambassadors.json')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var selects = [
+        document.getElementById('familyAmbassador'),
+        document.getElementById('festiveAmbassador'),
+      ];
+      selects.forEach(function (sel) {
+        if (!sel) return;
+        sel.innerHTML = '';
+        data.ambassadors.forEach(function (name) {
+          var opt = document.createElement('option');
+          opt.value = name === 'Nici unul' ? '' : name;
+          opt.textContent = name;
+          sel.appendChild(opt);
+        });
+      });
+    })
+    .catch(function () { /* silently fail — default option already in HTML */ });
+
   // ---- Smooth Scroll for anchor links ----
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', function (e) {

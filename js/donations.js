@@ -39,6 +39,10 @@
       donor_phone: formData.donor_phone,
     };
 
+    if (formData.ambassador) {
+      body.ambassador = formData.ambassador;
+    }
+
     if (formData.donation_type === 'campaign' && window.__campaignId) {
       body.campaign_id = window.__campaignId;
     }
@@ -81,6 +85,7 @@
         donor_name: document.getElementById('familyName').value.trim(),
         donor_email: document.getElementById('familyEmail').value.trim(),
         donor_phone: document.getElementById('familyPhone').value.trim(),
+        ambassador: document.getElementById('familyAmbassador').value,
         _submitBtn: document.getElementById('familySubmitBtn'),
       });
     });
@@ -102,6 +107,7 @@
         donor_name: document.getElementById('festiveName').value.trim(),
         donor_email: document.getElementById('festiveEmail').value.trim(),
         donor_phone: document.getElementById('festivePhone').value.trim(),
+        ambassador: document.getElementById('festiveAmbassador').value,
         _submitBtn: document.getElementById('festiveSubmitBtn'),
       });
     });

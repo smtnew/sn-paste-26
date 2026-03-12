@@ -176,6 +176,7 @@ serve(async (req) => {
       donor_email,
       donor_phone,
       campaign_id,
+      ambassador,
     } = await req.json();
 
     // Validate donation type
@@ -290,6 +291,7 @@ serve(async (req) => {
     if (donor_name) euplatescUrl.searchParams.append("ExtraData[donor_name]", donor_name);
     if (donor_email) euplatescUrl.searchParams.append("ExtraData[donor_email]", donor_email);
     if (donor_phone) euplatescUrl.searchParams.append("ExtraData[donor_phone]", donor_phone);
+    if (ambassador) euplatescUrl.searchParams.append("ExtraData[ambassador]", ambassador);
 
     return new Response(
       JSON.stringify({ redirect: euplatescUrl.toString(), payment_id: paymentId }),

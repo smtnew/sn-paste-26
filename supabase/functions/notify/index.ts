@@ -163,6 +163,7 @@ serve(async (req) => {
     const extraDonorName = formData.get("ExtraData[donor_name]")?.toString();
     const extraDonorEmail = formData.get("ExtraData[donor_email]")?.toString();
     const extraDonorPhone = formData.get("ExtraData[donor_phone]")?.toString();
+    const extraAmbassador = formData.get("ExtraData[ambassador]")?.toString();
 
     console.log("IPN received:", { invoiceId, amount, extraDonationType });
 
@@ -228,6 +229,7 @@ serve(async (req) => {
     if (extraDonorName) paymentRecord.donor_name = extraDonorName;
     if (extraDonorEmail) paymentRecord.donor_email = extraDonorEmail;
     if (extraDonorPhone) paymentRecord.donor_phone = extraDonorPhone;
+    if (extraAmbassador) paymentRecord.ambassador = extraAmbassador;
 
     // Insert payment (trigger will auto-update campaign.amount_raised)
     const { error: insertError } = await supabase

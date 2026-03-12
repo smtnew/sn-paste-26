@@ -753,6 +753,12 @@
             </select>
           </div>
           <div class="filter-group">
+            <label>Ambasador</label>
+            <select id="filterAmbassador">
+              <option value="">Toți ambasadorii</option>
+            </select>
+          </div>
+          <div class="filter-group">
             <label>Caută donator</label>
             <input
               type="text"
@@ -860,12 +866,13 @@
                   <th class="sortable" data-col="amount">
                     Sumă (lei) <span class="sort-icon">↕</span>
                   </th>
+                  <th>Ambasador</th>
                   <th>Ref. plată</th>
                 </tr>
               </thead>
               <tbody id="tableBody">
                 <tr>
-                  <td colspan="7">
+                  <td colspan="8">
                     <div class="state-loading">
                       <div class="spinner"></div>
                       <br />Se încarcă datele…
@@ -1076,7 +1083,7 @@
         const { data, error } = await supabase
           .from("payments")
           .select(
-            "id, amount, payment_ref, donor_name, donor_email, donor_phone, donation_type, created_at, campaign_id",
+            "id, amount, payment_ref, donor_name, donor_email, donor_phone, donation_type, created_at, campaign_id, ambassador",
           )
           .order("created_at", { ascending: false });
 
@@ -1094,6 +1101,7 @@
         allPayments = data || [];
         filteredPayments = [...allPayments];
         setDefaultDateFilters();
+        populateAmbassadorFilter();
         updateAll();
       }
 
@@ -1106,11 +1114,24 @@
           .slice(0, 10);
       }
 
+      function populateAmbassadorFilter() {
+        const sel = document.getElementById("filterAmbassador");
+        const names = [...new Set(allPayments.map((p) => p.ambassador || "").filter(Boolean))].sort();
+        sel.innerHTML = '<option value="">Toți ambasadorii</option>';
+        names.forEach((name) => {
+          const opt = document.createElement("option");
+          opt.value = name;
+          opt.textContent = name;
+          sel.appendChild(opt);
+        });
+      }
+
       // ── FILTERS ────────────────────────────────────────────────
       function applyFilters() {
         const from = document.getElementById("filterFrom").value;
         const to = document.getElementById("filterTo").value;
         const type = document.getElementById("filterType").value;
+        const ambassador = document.getElementById("filterAmbassador").value;
         const q = document
           .getElementById("filterSearch")
           .value.trim()
@@ -1121,6 +1142,7 @@
           if (from && d < from) return false;
           if (to && d > to) return false;
           if (type && p.donation_type !== type) return false;
+          if (ambassador && (p.ambassador || "") !== ambassador) return false;
           if (q) {
             const name = (p.donor_name || "").toLowerCase();
             const email = (p.donor_email || "").toLowerCase();
@@ -1136,6 +1158,7 @@
       function resetFilters() {
         setDefaultDateFilters();
         document.getElementById("filterType").value = "";
+        document.getElementById("filterAmbassador").value = "";
         document.getElementById("filterSearch").value = "";
         filteredPayments = [...allPayments];
         currentPage = 1;
@@ -1357,7 +1380,7 @@
         const tbody = document.getElementById("tableBody");
 
         if (total === 0) {
-          tbody.innerHTML = `<tr><td colspan="7"><div class="state-empty"><span>🔍</span>Nicio plată găsită pentru filtrele selectate.</div></td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="8"><div class="state-empty"><span>🔍</span>Nicio plată găsită pentru filtrele selectate.</div></td></tr>`;
           document.getElementById("tableInfo").textContent = "0 plăți";
           document.getElementById("paginationInfo").textContent = "";
           document.getElementById("pagination").innerHTML = "";
@@ -1374,6 +1397,7 @@
           <td style="color:var(--text-light)">${esc(p.donor_phone || "—")}</td>
           <td><span class="badge badge--${p.donation_type}">${TYPE_LABELS[p.donation_type] || p.donation_type}</span></td>
           <td style="font-weight:700;font-family:var(--font-heading)">${p.amount.toLocaleString("ro-RO")}</td>
+          <td style="color:var(--text-light)">${esc(p.ambassador || "—")}</td>
           <td style="color:var(--text-light);font-size:0.75rem;font-family:monospace">${esc(p.payment_ref || "—")}</td>
         </tr>
       `,
@@ -1452,7 +1476,7 @@
 
       function renderEmptyState(msg) {
         document.getElementById("tableBody").innerHTML =
-          `<tr><td colspan="7"><div class="state-empty"><span>⚠️</span>${msg}</div></td></tr>`;
+          `<tr><td colspan="8"><div class="state-empty"><span>⚠️</span>${msg}</div></td></tr>`;
       }
 
       // ── EXPORT CSV ──────────────────────────────────────────────
@@ -1469,6 +1493,7 @@
           "Telefon",
           "Tip",
           "Suma (lei)",
+          "Ambasador",
           "Referinta plata",
         ];
         const rows = sorted.map((p) => [
@@ -1478,6 +1503,7 @@
           p.donor_phone || "",
           TYPE_LABELS[p.donation_type] || p.donation_type,
           p.amount,
+          p.ambassador || "",
           p.payment_ref || "",
         ]);
         const csv = [headers, ...rows]
